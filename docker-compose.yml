@@ -1,7 +1,10 @@
+version: '3.8'
+
 services:
   db:
     image: postgres:16
     container_name: pub-logger-db
+    restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -10,6 +13,23 @@ services:
       - "5433:5432"
     volumes:
       - pub_logger_data:/var/lib/postgresql/data
+
+  api:
+    build: ./api
+    container_name: pub-logger-api
+    restart: always
+    env_file: .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      PGHOST: db
+      PGPORT: 5432
+      PGUSER: ${POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: ${POSTGRES_DB}
+      JWT_SECRET: ${JWT_SECRET}
 
 volumes:
   pub_logger_data:
