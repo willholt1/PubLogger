@@ -1,0 +1,14 @@
+FROM node:20
+
+WORKDIR /app
+
+# copy package.json and package-lock.json (only if present)
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev", "--", "--host"]

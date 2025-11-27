@@ -31,5 +31,15 @@ services:
       PGDATABASE: ${POSTGRES_DB}
       JWT_SECRET: ${JWT_SECRET}
 
+  frontend:
+    build: ./frontend
+    container_name: pub-logger-frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+
+
 volumes:
   pub_logger_data:

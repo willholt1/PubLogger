@@ -1,9 +1,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import visitsRouter from './routes/visits.js';
 
 dotenv.config();
 const app = express();
+
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Pub Logger API is running 🚀');
